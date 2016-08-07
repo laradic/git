@@ -1,0 +1,39 @@
+{
+    "name": "laradic/git",
+    "license": "MIT",
+    "description": "Provides an API wrapper for the Github/Bitbucket/(todo)Gitlab API's. Enables using the same methods and responses for all API's.",
+    "authors": [
+        {
+            "name": "Laradic",
+            "email": "info@laradic.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "laradic/support": "1.0.*",
+        "potherca/flysystem-github": "0.2.*",
+        "graham-campbell/github": "~4.2",
+        "gentle/bitbucket-api": "0.7.*",
+        "guzzlehttp/guzzle": "~6.2",
+        "vierbergenlars/php-semver": "~3.0"
+    },
+    "require-dev": {
+        "laradic/testing": "1.0.*",
+        "laradic/phing": "1.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laradic\\Git\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laradic\\Tests\\Git\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
