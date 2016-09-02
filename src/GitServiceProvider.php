@@ -7,7 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use League\Flysystem\Filesystem;
 use Laradic\Git\Remotes\Adapters\Bitbucket;
 use Laradic\Git\Remotes\Adapters\Github;
-use Laradic\Support\ServiceProvider;
+use Laradic\ServiceProvider\ServiceProvider;
 
 /**
  * The main service provider
