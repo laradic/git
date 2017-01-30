@@ -12,7 +12,7 @@
         "php": ">=5.5.9",
         "laradic/support": "1.0.*",
         "potherca/flysystem-github": "0.2.*",
-        "graham-campbell/github": "~4.2",
+        "graham-campbell/github": "~5.1",
         "gentle/bitbucket-api": "0.7.*",
         "guzzlehttp/guzzle": "~6.2",
         "vierbergenlars/php-semver": "~3.0"
