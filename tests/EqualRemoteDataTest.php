@@ -1,12 +1,19 @@
 <?php
 /**
- * Part of the Docit PHP packages.
+ * Part of the Laradic PHP Packages.
  *
- * License and copyright information bundled with this package in the LICENSE file
+ * Copyright (c) 2018. Robin Radic.
+ *
+ * The license can be found in the package and online at https://laradic.mit-license.org.
+ *
+ * @copyright Copyright 2018 (c) Robin Radic
+ * @license https://laradic.mit-license.org The MIT License
  */
+
 namespace Laradic\Tests\Git;
 
-use vierbergenlars\SemVer\version;
+use Dotenv\Dotenv;
+
 
 /**
  * This is the class EqualRemoteDataTest.
@@ -33,9 +40,23 @@ class EqualRemoteDataTest extends TestCase
     {
         $envPath = __DIR__ . '/../../../../';
         $envFile = $this->app->environmentFile();
-        \Dotenv::load($envPath, $envFile);
+        $env     = new Dotenv($envPath, $envFile);
+        $env->load();
+        app()->make('config')->set('services.bitbucket', [
+            'driver'   => 'bitbucket', // bitbucket | github
+            'auth'     => \Laradic\Git\Manager::AUTH_BASIC,
+            'username' => env('BITBUCKET_USERNAME'),
+            'password' => env('BITBUCKET_USERNAME'),
+        ]);
+        app()->make('config')->set('services.github', [
+            'driver' => 'github', // bitbucket | github
+            'auth'   => \Laradic\Git\Manager::AUTH_TOKEN,
+            'secret' => env('GITHUB_TOKEN'),
+        ]);
         $this->registerServiceProvider();
-        $git      = $this->app->make('laradic.git');
+        /** @var \Laradic\Git\Manager $git */
+        $git = $this->app->make('laradic.git');
+
         $this->gh = $git->connection('github');
         $this->bb = $git->connection('bitbucket');
     }
@@ -45,15 +66,18 @@ class EqualRemoteDataTest extends TestCase
     {
         $gh = $this->gh->getUser();
         $bb = $this->bb->getUser();
+        $this->assertThat($gh, self::isType('array'));
+        $this->assertThat($bb, self::isType('array'));
         $this->assertEquals(array_keys($gh), array_keys($bb));
     }
-
 
 
     public function testGetBranches()
     {
         $gh = $this->gh->getBranches($this->repo);
         $bb = $this->bb->getBranches($this->repo);
+        $this->assertThat($gh, self::isType('array'));
+        $this->assertThat($bb, self::isType('array'));
         foreach ($gh as $branch => $sha) {
             $this->assertInArray($branch, array_keys($bb));
         }
@@ -63,6 +87,8 @@ class EqualRemoteDataTest extends TestCase
     {
         $gh = $this->gh->getBranch($this->repo, 'develop');
         $bb = $this->bb->getBranch($this->repo, 'develop');
+        $this->assertThat($gh, self::isType('array'));
+        $this->assertThat($bb, self::isType('array'));
         $this->assertEquals(array_keys($gh), array_keys($bb));
     }
 
@@ -70,6 +96,9 @@ class EqualRemoteDataTest extends TestCase
     {
         $gh = $this->gh->getTags($this->repo);
         $bb = $this->bb->getTags($this->repo);
+        $this->assertThat($gh, self::isType('array'));
+        $this->assertThat($bb, self::isType('array'));
+        $this->assertEquals(array_keys($gh), array_keys($bb));
 
     }
 }
